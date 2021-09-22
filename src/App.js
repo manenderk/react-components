@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import {
   BrowserRouter as Router,
   Switch,
@@ -51,7 +50,7 @@ function App() {
           <div className="col-md-10 py-2">
             <Switch>
               <Route path="/password-field">
-                <PasswordFieldComponent />
+                <PasswordFieldComponent className="form-control" name="test" id="test" placeholder="test" value="Manender@1234" required="false" />
               </Route>
               <Route path="/dynamic-table">
                 <DynamicTableComponent />
