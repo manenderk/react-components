@@ -2,12 +2,19 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import './DynamicTable.scss';
 
-const DynamicTableComponent = ({headers, data, editAction, viewAction, deleteAction, ...props}) => {
+const DynamicTableComponent = ({headers, data, idKey, editAction, viewAction, deleteAction, ...props}) => {
 
   const [tableHeaders, setTableHeaders] = useState(headers);
   const [tableData, setTableData] = useState(data)
 
   useEffect(() => {
+
+    if (viewAction || editAction || deleteAction) {
+      if (!idKey) {
+        throw new Error('idKey is not specified. To use edit/delete actions specify idKey');
+      }
+    }
+
     if (editAction || deleteAction) {
       setTableHeaders([...headers, {
         label: 'Action',
@@ -17,10 +24,27 @@ const DynamicTableComponent = ({headers, data, editAction, viewAction, deleteAct
   }, [headers])
 
   
+  
 
+  const printColumnByDataType = (header, item) => {    
+    if (header.key === 'item_action') {
+      return (
+        <>
+          {
+            editAction &&
+            <a href={editAction.replace('{id}', item[idKey])} >Edit</a>
+          }
+          {
+            deleteAction &&
+            <a href={deleteAction.replace('{id}', item[idKey])} >Delete</a>
+          }
+        </>
+      )
+    }
+    
+    const col = item[header.key];
 
-  const printColumnByDataType = (header, item) => {
-    if (!item) {
+    if (!col) {
       return '';
     }
 
@@ -28,13 +52,13 @@ const DynamicTableComponent = ({headers, data, editAction, viewAction, deleteAct
     
     switch (header.dataType) {
       case 'bool':
-        formattedText = item === true ? 'Yes' : 'No'
+        formattedText = col === true ? 'Yes' : 'No'
         break;
       case 'date':
-        formattedText = item.toDateString();
+        formattedText = col.toDateString();
         break;
       default:
-        formattedText = item + '';
+        formattedText = col + '';
         break;
     }
     return formattedText;
@@ -63,7 +87,16 @@ const DynamicTableComponent = ({headers, data, editAction, viewAction, deleteAct
                     tableHeaders.map((header, index1) => {
                       return (
                         <div className="item" key={index1}>
-                          {printColumnByDataType(header, item[header.key])}
+                          {
+                            index1 === 0 && viewAction &&
+                            <a href={viewAction.replace('{id}', item[idKey])}>
+                              { printColumnByDataType(header, item) }
+                            </a>
+
+                          }
+                          {
+                            (index1 > 0 || !viewAction) && printColumnByDataType(header, item)
+                          }
                         </div>
                       )
                     })

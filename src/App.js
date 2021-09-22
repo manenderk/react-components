@@ -55,7 +55,14 @@ function App() {
                 <PasswordFieldComponent />
               </Route>
               <Route path="/dynamic-table">
-                <DynamicTableComponent headers={tableHeaderData1} data={tableData1} editAction="1234"/>
+                <DynamicTableComponent
+                  headers={tableHeaderData1}
+                  data={tableData1}
+                  idKey="id"
+                  editAction="/user/edit/{id}"
+                  viewAction="/user/{id}"
+                  deleteAction="/user/delete/{id}"
+                />
               </Route>
             </Switch>
           </div>
