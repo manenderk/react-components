@@ -9,6 +9,8 @@ import "../node_modules/jquery/dist/jquery";
 import "../node_modules/bootstrap/dist/js/bootstrap";
 import PasswordFieldComponent from "./Components/PasswordField/PasswordFieldComponent";
 import DynamicTableComponent from "./Components/DynamicTable/DynamicTableComponent";
+import tableHeaderData1 from "./sample-data/table-header-1";
+import tableData1 from "./sample-data/table-data-1";
 
 function App() {
   return (
@@ -53,7 +55,7 @@ function App() {
                 <PasswordFieldComponent />
               </Route>
               <Route path="/dynamic-table">
-                <DynamicTableComponent />
+                <DynamicTableComponent headers={tableHeaderData1} data={tableData1} editAction="1234"/>
               </Route>
             </Switch>
           </div>
