@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
+import './PasswordField.scss';
 
 const PasswordFieldComponent = ({name, id, className, placeholder, required, value, ...props}) => {
   const passwordRegex = {
