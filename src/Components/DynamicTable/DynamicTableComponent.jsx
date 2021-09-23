@@ -1,125 +1,138 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import './DynamicTable.scss';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import "./DynamicTable.scss";
 
-const DynamicTableComponent = ({headers, data, idKey, editAction, viewAction, deleteAction, ...props}) => {
-
+const DynamicTableComponent = ({
+  headers,
+  data,
+  idKey,
+  editAction,
+  viewAction,
+  deleteAction,
+  sortBy,
+  sortDirection,
+  ...props
+}) => {
   const [tableHeaders, setTableHeaders] = useState(headers);
-  const [tableData, setTableData] = useState(data)
+  const [tableData, setTableData] = useState(data);
 
   useEffect(() => {
-
     if (viewAction || editAction || deleteAction) {
       if (!idKey) {
-        throw new Error('idKey is not specified. To use edit/delete actions specify idKey');
+        throw new Error(
+          "idKey is not specified. To use edit/delete actions specify idKey"
+        );
       }
     }
 
     if (editAction || deleteAction) {
-      setTableHeaders([...headers, {
-        label: 'Action',
-        key: 'item_action'
-      }])
+      setTableHeaders([
+        ...headers,
+        {
+          label: "Action",
+          key: "item_action",
+        },
+      ]);
     }
-  }, [headers])
+  }, [headers]);
 
-  
-  
+  useEffect(() => {}, [sortBy, sortDirection]);
 
-  const printColumnByDataType = (header, item) => {    
-    if (header.key === 'item_action') {
+  const printColumnByDataType = (header, item) => {
+    if (header.key === "item_action") {
       return (
         <>
-          {
-            editAction &&
-            <a href={editAction.replace('{id}', item[idKey])} >Edit</a>
-          }
-          {
-            deleteAction &&
-            <a href={deleteAction.replace('{id}', item[idKey])} >Delete</a>
-          }
+          {editAction && (
+            <a
+              href={editAction.replace("{id}", item[idKey])}
+              className="item-action"
+            >
+              Edit
+            </a>
+          )}
+          {deleteAction && (
+            <a
+              href={deleteAction.replace("{id}", item[idKey])}
+              className="item-action"
+            >
+              Delete
+            </a>
+          )}
         </>
-      )
+      );
     }
-    
+
     const col = item[header.key];
 
     if (!col) {
-      return '';
+      return "";
     }
 
     let formattedText = null;
-    
+
     switch (header.dataType) {
-      case 'bool':
-        formattedText = col === true ? 'Yes' : 'No'
+      case "bool":
+        formattedText = col === true ? "Yes" : "No";
         break;
-      case 'date':
+      case "date":
         formattedText = col.toDateString();
         break;
       default:
-        formattedText = col + '';
+        formattedText = col + "";
         break;
     }
     return formattedText;
-  }
+  };
 
   return (
     <>
       <div className="dynamic-table">
         <div className="header-row">
-          {
-            tableHeaders.map((header, index) => {
-              return (
-                <div className="header-col" key={index}>
-                  {header.label}
-                </div>
-              )
-            })
-          }
+          {tableHeaders.map((header, index) => {
+            return (
+              <div className="header-col" key={index}>
+                {header.label}
+              </div>
+            );
+          })}
         </div>
         <div className="item-row-container">
-          {
-            tableData.map((item, index) => {
-              return(
-                <div className="item-row" key={index}>
-                  {
-                    tableHeaders.map((header, index1) => {
-                      return (
-                        <div className="item" key={index1}>
-                          {
-                            index1 === 0 && viewAction &&
-                            <a href={viewAction.replace('{id}', item[idKey])}>
-                              { printColumnByDataType(header, item) }
-                            </a>
-
-                          }
-                          {
-                            (index1 > 0 || !viewAction) && printColumnByDataType(header, item)
-                          }
-                        </div>
-                      )
-                    })
-                  }
-                </div>
-              )
-            })
-          }
+          {tableData.map((item, index) => {
+            return (
+              <div className="item-row" key={index}>
+                {tableHeaders.map((header, index1) => {
+                  return (
+                    <div className="item" key={index1}>
+                      {index1 === 0 && viewAction && (
+                        <a href={viewAction.replace("{id}", item[idKey])}>
+                          {printColumnByDataType(header, item)}
+                        </a>
+                      )}
+                      {(index1 > 0 || !viewAction) &&
+                        printColumnByDataType(header, item)}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 DynamicTableComponent.propTypes = {
   /**
    * Headers for the table
    */
-  headers: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    key: PropTypes.string,
-    dataType: PropTypes.oneOf(['bool', 'string', 'number', 'date'])
-  })),
+  headers: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      key: PropTypes.string,
+      dataType: PropTypes.oneOf(["bool", "string", "number", "date"]),
+    })
+  ),
 
   /**
    * Data for the table
@@ -144,7 +157,22 @@ DynamicTableComponent.propTypes = {
   /**
    * Url for delete item
    */
-  deleteAction: PropTypes.string
-}
+  deleteAction: PropTypes.string,
 
-export default DynamicTableComponent
+  /**
+   * Default Sort By Column
+   */
+  sortBy: PropTypes.string,
+
+  /**
+   * Default Sort By Direction
+   */
+  sortDirection: PropTypes.oneOf(["ASC", "DESC"]),
+};
+
+DynamicTableComponent.defaultProps = {
+  sortBy: "",
+  sortDirection: "ASC",
+};
+
+export default DynamicTableComponent;

@@ -30,5 +30,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     flex-wrap: wrap;
+
+    .item-action {
+      margin-right: 0.5rem;
+    }
   }
+
+
 }

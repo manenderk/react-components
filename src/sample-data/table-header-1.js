@@ -8,22 +8,16 @@ const tableHeaderData1 = [
     key: 'last_name'
   },
   {
+    label: 'Company',
+    key: 'company_name'
+  },
+  {
     label: 'Email',
     key: 'email'
   },
   {
-    label: 'Username',
-    key: 'username'
-  },
-  {
-    label: 'Active',
-    key: 'active',
-    dataType: 'bool'
-  },
-  {
-    label: 'Last Login',
-    key: 'last_login',
-    dataType: 'date'
+    label: 'Website',
+    key: 'web'
   }
 ]
 
