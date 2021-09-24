@@ -11,6 +11,8 @@ import PasswordFieldComponent from "./Components/PasswordField/PasswordFieldComp
 import DynamicTableComponent from "./Components/DynamicTable/DynamicTableComponent";
 import tableHeaderData1 from "./sample-data/table-header-1";
 import tableData1 from "./sample-data/table-data-1";
+import ItemsExplorerComponent from "./Components/ItemsExplorer/ItemsExplorerComponent";
+import ItemsLevel1 from "./sample-data/items-level-1";
 
 function App() {
   return (
@@ -46,6 +48,15 @@ function App() {
                     Dynamic Table
                   </NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to="/items-explorer"
+                    activeClassName="active"
+                  >
+                    Items Explorer
+                  </NavLink>
+                </li>
               </ul>
             </div>
           </div>
@@ -62,6 +73,11 @@ function App() {
                   editAction="/user/edit/{id}"
                   viewAction="/user/{id}"
                   deleteAction="/user/delete/{id}"
+                />
+              </Route>
+              <Route path="/items-explorer">
+                <ItemsExplorerComponent 
+                  items={ItemsLevel1}                  
                 />
               </Route>
             </Switch>
