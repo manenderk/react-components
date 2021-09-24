@@ -5,7 +5,12 @@ import "./Item.scss";
 import ItemHelper from "./ItemHelper";
 import striptags from "striptags";
 
-const ItemComponent = ({ item, fetchSubitemsUrl, titleDisplayKeys, ...props }) => {
+const ItemComponent = ({
+  item,
+  fetchSubitemsUrl,
+  titleDisplayKeys,
+  ...props
+}) => {
   if (!item) {
     throw new Error("Item object is required");
   }
@@ -42,7 +47,7 @@ const ItemComponent = ({ item, fetchSubitemsUrl, titleDisplayKeys, ...props }) =
             )}
           </span>
         )}
-        <span onClick={() => props.onClick ? props.onClick(item) : null }>
+        <span onClick={() => (props.onClick ? props.onClick(item) : null)}>
           {ItemHelper.getTitle(item, titleDisplayKeys)}
         </span>
       </div>
@@ -57,7 +62,9 @@ const ItemComponent = ({ item, fetchSubitemsUrl, titleDisplayKeys, ...props }) =
             return (
               <ItemComponent
                 item={subItem}
-                onClick={(selectedItem) => props.onClick ? props.onClick(selectedItem) : null }
+                onClick={(selectedItem) =>
+                  props.onClick ? props.onClick(selectedItem) : null
+                }
                 key={subItem.id}
                 titleDisplayKeys={titleDisplayKeys}
               ></ItemComponent>
@@ -70,9 +77,20 @@ const ItemComponent = ({ item, fetchSubitemsUrl, titleDisplayKeys, ...props }) =
 };
 
 ItemComponent.propTypes = {
+  /**
+   * Item object to display
+   */
   item: PropTypes.object,
+
+  /**
+   * Url to fetch sub items. Add identifier {id} in url. This identified will be replaced by item id
+   */
   fetchSubitemsUrl: PropTypes.string,
-  titleDisplayKeys: PropTypes.arrayOf(PropTypes.string)
+
+  /**
+   * Array of item object keys that will be used to display item title
+   */
+  titleDisplayKeys: PropTypes.arrayOf(PropTypes.string),
 };
 
 ItemComponent.defaultProps = {

@@ -12,7 +12,6 @@ const ItemDetails = ({
   detailsDisplayKeys,
   ...props
 }) => {
-
   useEffect(() => {
     if (item?.ilevel === 0 || item?.ilevel === 1) {
       getSubitems();
@@ -25,11 +24,8 @@ const ItemDetails = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
-  
-
   const [subItems, setSubItems] = useState([]);
   const [hasDetails, setHasDetails] = useState(ItemHelper.itemHasDetails());
-  
 
   const getSubitems = async () => {
     const data = await ItemHelper.getSubitems(
@@ -38,7 +34,6 @@ const ItemDetails = ({
     setSubItems(data);
   };
 
-  
   return (
     <div className={"item-details-container "}>
       {item && (
@@ -60,15 +55,13 @@ const ItemDetails = ({
                 </ul>
               </div>
             )}
-            {
-              hasDetails &&
+            {hasDetails && (
               <div className="item-details">
                 <div className="item-description">
                   {ReactHtmlParser(item.description)}
                 </div>
               </div>
-            }
-            
+            )}
           </div>
         </>
       )}
@@ -80,16 +73,31 @@ const ItemDetails = ({
 };
 
 ItemDetails.propTypes = {
+  /**
+   * Item object to display
+   */
   item: PropTypes.object,
+
+  /**
+   * Url to fetch sub items. Add identifier {id} in url. This identified will be replaced by item id
+   */
   fetchSubitemsUrl: PropTypes.string,
+
+  /**
+   * Array of item object keys that will be used to display item title
+   */
   titleDisplayKeys: PropTypes.arrayOf(PropTypes.string),
+
+  /**
+   * Array of item object keys that will be used to display item details
+   */
   detailsDisplayKeys: PropTypes.arrayOf(PropTypes.string),
 };
 
 ItemDetails.defaultProps = {
-  fetchSubitemsUrl: '',
+  fetchSubitemsUrl: "",
   titleDisplayKeys: [],
-  detailsDisplayKeys: []
-}
+  detailsDisplayKeys: [],
+};
 
 export default ItemDetails;

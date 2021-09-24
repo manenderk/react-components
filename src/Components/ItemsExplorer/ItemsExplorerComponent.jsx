@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import "./ItemsExplorer.scss";
-
 import ItemComponent from "./ItemComponent";
 import ItemDetails from "./ItemDetails";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import "./ItemsExplorer.scss";
 
 const ItemsExplorerComponent = ({
   items,
@@ -49,16 +50,31 @@ const ItemsExplorerComponent = ({
 };
 
 ItemsExplorerComponent.propTypes = {
+  /**
+   * Array of items object to display
+   */
   items: PropTypes.array,
+
+  /**
+   * Array of item object keys that will be used to display item title
+   */
   titleDisplayKeys: PropTypes.arrayOf(PropTypes.string),
+
+  /**
+   * Array of item object keys that will be used to display item details
+   */
   detailsDisplayKeys: PropTypes.arrayOf(PropTypes.string),
+
+  /**
+   * Url to fetch sub items. Add identifier {id} in url. This identified will be replaced by item id
+   */
   fetchSubitemsUrl: PropTypes.string,
 };
 
 ItemsExplorerComponent.defaultProps = {
   fetchSubitemsUrl: "",
   titleDisplayKeys: [],
-  detailsDisplayKeys: []
+  detailsDisplayKeys: [],
 };
 
 export default ItemsExplorerComponent;
