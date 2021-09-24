@@ -7,8 +7,10 @@ import ItemDetails from "./ItemDetails";
 
 const ItemsExplorerComponent = ({
   items,
-  itemsDisplayKeys,
-  idkey,
+  titleDisplayKeys,
+  detailsDisplayKeys,
+  fetchSubitemsUrl,
+
   ...props
 }) => {
   const [currentItem, setCurrentItem] = useState(null);
@@ -23,8 +25,11 @@ const ItemsExplorerComponent = ({
                 <ItemComponent
                   key={item.id}
                   item={item}
-                  fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/1/items/${item.id}/children.json`}
-                  onClick={(e) => { setCurrentItem(item) }}
+                  fetchSubitemsUrl={fetchSubitemsUrl}
+                  titleDisplayKeys={titleDisplayKeys}
+                  onClick={(selectedItem) => {
+                    setCurrentItem(selectedItem);
+                  }}
                 />
               );
             })}
@@ -32,7 +37,12 @@ const ItemsExplorerComponent = ({
         )}
       </div>
       <div className="content-container col-8">
-        <ItemDetails item={currentItem}></ItemDetails>
+        <ItemDetails
+          item={currentItem}
+          fetchSubitemsUrl={fetchSubitemsUrl}
+          titleDisplayKeys={titleDisplayKeys}
+          detailsDisplayKeys={detailsDisplayKeys}
+        ></ItemDetails>
       </div>
     </div>
   );
@@ -40,8 +50,15 @@ const ItemsExplorerComponent = ({
 
 ItemsExplorerComponent.propTypes = {
   items: PropTypes.array,
-  itemsDisplayKeys: PropTypes.arrayOf(PropTypes.shape(PropTypes.string)),
-  idkey: PropTypes.string,
+  titleDisplayKeys: PropTypes.arrayOf(PropTypes.string),
+  detailsDisplayKeys: PropTypes.arrayOf(PropTypes.string),
+  fetchSubitemsUrl: PropTypes.string,
+};
+
+ItemsExplorerComponent.defaultProps = {
+  fetchSubitemsUrl: "",
+  titleDisplayKeys: [],
+  detailsDisplayKeys: []
 };
 
 export default ItemsExplorerComponent;

@@ -1,74 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import './Item.scss';
-import ItemHelper from './ItemHelper';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "./Item.scss";
+import ItemHelper from "./ItemHelper";
+import striptags from "striptags";
 
-const ItemComponent = ({item, fetchSubitemsUrl, ...props}) => {
-
+const ItemComponent = ({ item, fetchSubitemsUrl, titleDisplayKeys, ...props }) => {
   if (!item) {
-    throw new Error('Item object is required');
+    throw new Error("Item object is required");
   }
 
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [subItems, setSubItems] = useState([]);
 
-  useEffect( () => {
+  useEffect(() => {
     if (!isCollapsed && subItems.length === 0) {
       getSubitems();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCollapsed]);
 
   const getSubitems = async () => {
-    const data = await ItemHelper.getSubitems(fetchSubitemsUrl);
+    const data = await ItemHelper.getSubitems(
+      fetchSubitemsUrl.replace("{id}", item.id)
+    );
     setSubItems(data);
-  }
+  };
 
   return (
     <li className="item-tile" key={item.id}>
-      <div className="tile-title">  
-        {
-          fetchSubitemsUrl &&
-          <span className="collapse-action" onClick={(e) => setIsCollapsed(!isCollapsed)}>
-            {
-              isCollapsed ? <i className="fas fa-chevron-right" /> : <i className="fas fa-chevron-down" />
-            }
+      <div className="tile-title">
+        {fetchSubitemsUrl && (
+          <span
+            className="collapse-action"
+            onClick={(e) => setIsCollapsed(!isCollapsed)}
+          >
+            {isCollapsed ? (
+              <i className="fas fa-chevron-right" />
+            ) : (
+              <i className="fas fa-chevron-down" />
+            )}
           </span>
-        }       
-        <span onClick={props.onClick}>
-          {item.code} - {item.title}
-        </span>   
-        
+        )}
+        <span onClick={() => props.onClick ? props.onClick(item) : null }>
+          {ItemHelper.getTitle(item, titleDisplayKeys)}
+        </span>
       </div>
-      {
-        item.description &&
+      {item.description && (
         <div className="item-description">
-          {item.description}
+          {striptags(item.description).substr(0, 100)}
         </div>
-      }
-      {
-        subItems.length > 0 &&
+      )}
+      {subItems.length > 0 && !isCollapsed && (
         <ul className="subitems">
-          {
-            subItems.map(subItem => {
-              return <ItemComponent item={subItem}></ItemComponent>
-            })
-          }
-        </ul>  
-      }
-      
+          {subItems.map((subItem) => {
+            return (
+              <ItemComponent
+                item={subItem}
+                onClick={(selectedItem) => props.onClick ? props.onClick(selectedItem) : null }
+                key={subItem.id}
+                titleDisplayKeys={titleDisplayKeys}
+              ></ItemComponent>
+            );
+          })}
+        </ul>
+      )}
     </li>
-  )
-}
+  );
+};
 
 ItemComponent.propTypes = {
   item: PropTypes.object,
-  fetchSubitemsUrl: PropTypes.string
-}
+  fetchSubitemsUrl: PropTypes.string,
+  titleDisplayKeys: PropTypes.arrayOf(PropTypes.string)
+};
 
 ItemComponent.defaultProps = {
-  fetchSubitemsUrl: ''
-}
+  fetchSubitemsUrl: "",
+  titleDisplayKeys: [],
+};
 
-export default ItemComponent
+export default ItemComponent;

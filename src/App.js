@@ -77,7 +77,10 @@ function App() {
               </Route>
               <Route path="/items-explorer">
                 <ItemsExplorerComponent 
-                  items={ItemsLevel1}                  
+                  items={ItemsLevel1}  
+                  titleDisplayKeys={['code', 'title']}
+                  detailsDisplayKeys={['description']}
+                  fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/1/items/{id}/children.json`}                
                 />
               </Route>
             </Switch>
