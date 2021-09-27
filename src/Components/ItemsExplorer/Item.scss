@@ -2,9 +2,16 @@
   padding: 0.5rem;
   
   .tile-title {
-    cursor: pointer;
+    
     .collapse-action {
       margin-right: 0.5rem;
+    }
+    .list-icon {
+      margin-right: 0.5rem;
+    }
+
+    .item-title-text {
+      cursor: pointer;
     }
   }
 

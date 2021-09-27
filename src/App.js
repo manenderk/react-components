@@ -78,9 +78,9 @@ function App() {
               <Route path="/items-explorer">
                 <ItemsExplorerComponent 
                   items={ItemsLevel1}  
-                  titleDisplayKeys={['code', 'title']}
-                  detailsDisplayKeys={['description']}
-                  fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/1/items/{id}/children.json`}                
+                  fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/1/items/{id}/children.json`}    
+                  listLevel1Icon='<i class="far fa-folder"></i>'
+                  listLevel2Icon='<i class="far fa-file-alt"></i>'            
                 />
               </Route>
             </Switch>

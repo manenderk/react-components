@@ -10,26 +10,37 @@ const ItemDetails = ({
   fetchSubitemsUrl,
   titleDisplayKeys,
   detailsDisplayKeys,
+  levelKey,
+  listLevel1Icon,
+  listLevel2Icon,
   ...props
 }) => {
+
+  
+
+  const [currentItem, setCurrentItem] = useState(item);
+  const [subItems, setSubItems] = useState([]);
+  const [hasDetails, setHasDetails] = useState(
+    ItemHelper.itemHasDetails(currentItem, detailsDisplayKeys)
+  );
+
   useEffect(() => {
-    if (item?.ilevel === 0 || item?.ilevel === 1) {
+    setCurrentItem(item);
+  }, [item]);
+
+  useEffect(() => {
+    if (levelKey && currentItem && (currentItem[levelKey] === 0 || currentItem[levelKey] === 1)) {
       getSubitems();
     } else {
       setSubItems([]);
     }
 
-    setHasDetails(ItemHelper.itemHasDetails());
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item]);
-
-  const [subItems, setSubItems] = useState([]);
-  const [hasDetails, setHasDetails] = useState(ItemHelper.itemHasDetails());
+    setHasDetails(ItemHelper.itemHasDetails(currentItem, detailsDisplayKeys));
+  }, [currentItem, detailsDisplayKeys, levelKey])
 
   const getSubitems = async () => {
     const data = await ItemHelper.getSubitems(
-      fetchSubitemsUrl.replace("{id}", item.id)
+      fetchSubitemsUrl.replace("{id}", currentItem.id)
     );
     setSubItems(data);
   };
@@ -39,7 +50,13 @@ const ItemDetails = ({
       {item && (
         <>
           <h3 className="item-title">
-            {ItemHelper.getTitle(item, titleDisplayKeys)}
+          {
+            ItemHelper.getItemIcon(currentItem, levelKey, listLevel1Icon, listLevel2Icon) && 
+            <span className="list-icon">
+              {ReactHtmlParser(ItemHelper.getItemIcon(currentItem, levelKey, listLevel1Icon, listLevel2Icon))}
+            </span>  
+          }
+          {ItemHelper.getTitle(currentItem, titleDisplayKeys)}
           </h3>
           <div className="item-content">
             {subItems.length > 0 && (
@@ -48,7 +65,14 @@ const ItemDetails = ({
                   {subItems.map((subItem) => {
                     return (
                       <div className="sub-item" key={subItem.id}>
-                        <ItemComponent item={subItem}></ItemComponent>
+                        <ItemComponent
+                          item={subItem}
+                          titleDisplayKeys={titleDisplayKeys}
+                          levelKey={levelKey}
+                          listLevel1Icon={listLevel1Icon}
+                          listLevel2Icon={listLevel2Icon}
+                          onClick={(item) => setCurrentItem(item)}
+                        ></ItemComponent>
                       </div>
                     );
                   })}
@@ -58,7 +82,7 @@ const ItemDetails = ({
             {hasDetails && (
               <div className="item-details">
                 <div className="item-description">
-                  {ReactHtmlParser(item.description)}
+                  {ReactHtmlParser(currentItem.description)}
                 </div>
               </div>
             )}
@@ -92,12 +116,31 @@ ItemDetails.propTypes = {
    * Array of item object keys that will be used to display item details
    */
   detailsDisplayKeys: PropTypes.arrayOf(PropTypes.string),
+
+  /**
+   * Items Level Key
+   */
+  levelKey: PropTypes.string,
+
+  /**
+   * Icon to display level 1 items list
+   */
+  listLevel1Icon: PropTypes.string,
+
+  /**
+   * Icon to display for level 2 items list
+   */
+
+  listLevel2Icon: PropTypes.string,
 };
 
 ItemDetails.defaultProps = {
   fetchSubitemsUrl: "",
   titleDisplayKeys: [],
   detailsDisplayKeys: [],
+  listLevel1Icon: "",
+  listLevel2Icon: "",
+  levelKey: "",
 };
 
 export default ItemDetails;

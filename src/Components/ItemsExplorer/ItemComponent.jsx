@@ -4,11 +4,16 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Item.scss";
 import ItemHelper from "./ItemHelper";
 import striptags from "striptags";
+import ReactHtmlParser from "react-html-parser";
+
 
 const ItemComponent = ({
   item,
   fetchSubitemsUrl,
   titleDisplayKeys,
+  listLevel1Icon,
+  listLevel2Icon,
+  levelKey,
   ...props
 }) => {
   if (!item) {
@@ -47,7 +52,13 @@ const ItemComponent = ({
             )}
           </span>
         )}
-        <span onClick={() => (props.onClick ? props.onClick(item) : null)}>
+        {
+          ItemHelper.getItemIcon(item, levelKey, listLevel1Icon, listLevel2Icon) && 
+          <span className="list-icon">
+            {ReactHtmlParser(ItemHelper.getItemIcon(item, levelKey, listLevel1Icon, listLevel2Icon))}
+          </span>  
+        }
+        <span className="item-title-text" onClick={() => (props.onClick ? props.onClick(item) : null)}>
           {ItemHelper.getTitle(item, titleDisplayKeys)}
         </span>
       </div>
@@ -67,6 +78,9 @@ const ItemComponent = ({
                 }
                 key={subItem.id}
                 titleDisplayKeys={titleDisplayKeys}
+                levelKey={levelKey}
+                listLevel1Icon={listLevel1Icon}
+                listLevel2Icon={listLevel2Icon}
               ></ItemComponent>
             );
           })}
@@ -91,11 +105,31 @@ ItemComponent.propTypes = {
    * Array of item object keys that will be used to display item title
    */
   titleDisplayKeys: PropTypes.arrayOf(PropTypes.string),
+
+
+  /**
+   * Items Level Key
+   */
+  levelKey: PropTypes.string,
+
+  /**
+   * Icon to display level 1 items list
+   */
+   listLevel1Icon: PropTypes.string,
+
+   /**
+    * Icon to display for level 2 items list
+    */
+ 
+   listLevel2Icon: PropTypes.string,
 };
 
 ItemComponent.defaultProps = {
   fetchSubitemsUrl: "",
   titleDisplayKeys: [],
+  listLevel1Icon: '',
+  listLevel2Icon: '',
+  levelKey: ''
 };
 
 export default ItemComponent;

@@ -16,6 +16,10 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    .list-icon {
+      margin-right: 0.5rem;
+    }
   }
 
   .item-content {

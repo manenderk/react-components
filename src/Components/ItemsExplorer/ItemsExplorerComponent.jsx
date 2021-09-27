@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ItemComponent from "./ItemComponent";
 import ItemDetails from "./ItemDetails";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./ItemsExplorer.scss";
 
 const ItemsExplorerComponent = ({
@@ -11,7 +11,9 @@ const ItemsExplorerComponent = ({
   titleDisplayKeys,
   detailsDisplayKeys,
   fetchSubitemsUrl,
-
+  levelKey,
+  listLevel1Icon,
+  listLevel2Icon,
   ...props
 }) => {
   const [currentItem, setCurrentItem] = useState(null);
@@ -28,6 +30,9 @@ const ItemsExplorerComponent = ({
                   item={item}
                   fetchSubitemsUrl={fetchSubitemsUrl}
                   titleDisplayKeys={titleDisplayKeys}
+                  listLevel1Icon={listLevel1Icon}
+                  listLevel2Icon={listLevel2Icon}
+                  levelKey={levelKey}
                   onClick={(selectedItem) => {
                     setCurrentItem(selectedItem);
                   }}
@@ -43,6 +48,9 @@ const ItemsExplorerComponent = ({
           fetchSubitemsUrl={fetchSubitemsUrl}
           titleDisplayKeys={titleDisplayKeys}
           detailsDisplayKeys={detailsDisplayKeys}
+          levelKey={levelKey}
+          listLevel1Icon={listLevel1Icon}
+          listLevel2Icon={listLevel2Icon}
         ></ItemDetails>
       </div>
     </div>
@@ -69,12 +77,31 @@ ItemsExplorerComponent.propTypes = {
    * Url to fetch sub items. Add identifier {id} in url. This identified will be replaced by item id
    */
   fetchSubitemsUrl: PropTypes.string,
+
+  /**
+   * Level Key
+   */
+  levelKey: PropTypes.string,
+
+  /**
+   * Icon to display level 1 items list
+   */
+  listLevel1Icon: PropTypes.string,
+
+  /**
+   * Icon to display for level 2 items list
+   */
+
+  listLevel2Icon: PropTypes.string
 };
 
 ItemsExplorerComponent.defaultProps = {
   fetchSubitemsUrl: "",
-  titleDisplayKeys: [],
-  detailsDisplayKeys: [],
+  titleDisplayKeys: ['code', 'title'],
+  detailsDisplayKeys: ['description'],
+  levelKey: 'ilevel',
+  listLevel1Icon: '',
+  listLevel2Icon: ''
 };
 
 export default ItemsExplorerComponent;
