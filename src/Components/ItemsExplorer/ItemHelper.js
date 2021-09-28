@@ -1,12 +1,24 @@
 const ItemHelper = {
+  getItems: async (url) => {
+    try {
+      if (!url) {
+        throw new Error('URL not provided');
+      }
+      const resp = await fetch(url);
+      const data = await resp.json();
+      return data;
+    } catch (e) {
+      console.log(e);
+      return [];
+    }    
+  },
+
   getSubitems: async (url) => {
     try {
       if (!url) {
-        return;
+        throw new Error('URL not provided');
       }
-      const resp = await fetch(url, {
-        cache: 'no-cache'
-      });
+      const resp = await fetch(url);
       const data = await resp.json();
       return data;
     } catch (e) {

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ItemComponent from "./ItemComponent";
 import ItemDetails from "./ItemDetails";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./ItemsExplorer.scss";
+import ItemHelper from "./ItemHelper";
 
 const ItemsExplorerComponent = ({
   items,
+  fetchItemsUrl,
   titleDisplayKeys,
   detailsDisplayKeys,
   fetchSubitemsUrl,
@@ -16,14 +18,31 @@ const ItemsExplorerComponent = ({
   listLevel2Icon,
   ...props
 }) => {
+
   const [currentItem, setCurrentItem] = useState(null);
+  const [itemsList, setItemsList] = useState([]);
+
+  const getItems = async () => {
+    const itemData = await ItemHelper.getItems(fetchItemsUrl);
+    setItemsList(itemData);
+  }
+
+  useEffect(() => {
+    if (items?.length > 0) {
+      setItemsList(items);
+    } else if (fetchItemsUrl) {
+      getItems();
+    } else {
+      throw new Error('Items or Fetch Items url not provided');
+    }
+  }, [items, fetchItemsUrl])
 
   return (
     <div className="items-explorer row">
       <div className="sidebar col-4">
-        {items.length > 0 && (
+        {itemsList.length > 0 && (
           <ul className="items level1">
-            {items.map((item) => {
+            {itemsList.map((item) => {
               return (
                 <ItemComponent
                   key={item.id}
@@ -64,6 +83,11 @@ ItemsExplorerComponent.propTypes = {
   items: PropTypes.array,
 
   /**
+   * Url to fetch items
+   */
+  fetchItemsUrl: PropTypes.string,
+
+  /**
    * Array of item object keys that will be used to display item title
    */
   titleDisplayKeys: PropTypes.arrayOf(PropTypes.string),
@@ -97,6 +121,7 @@ ItemsExplorerComponent.propTypes = {
 
 ItemsExplorerComponent.defaultProps = {
   fetchSubitemsUrl: "",
+  fetchItemsUrl: '',
   titleDisplayKeys: ['code', 'title'],
   detailsDisplayKeys: ['description'],
   levelKey: 'ilevel',
