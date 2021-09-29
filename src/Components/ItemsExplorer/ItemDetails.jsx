@@ -36,6 +36,7 @@ const ItemDetails = ({
     }
 
     setHasDetails(ItemHelper.itemHasDetails(currentItem, detailsDisplayKeys));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentItem, detailsDisplayKeys, levelKey])
 
   const getSubitems = async () => {

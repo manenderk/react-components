@@ -35,6 +35,7 @@ const ItemsExplorerComponent = ({
     } else {
       throw new Error('Items or Fetch Items url not provided');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, fetchItemsUrl])
 
   return (
