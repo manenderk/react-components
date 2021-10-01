@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./DynamicTable.scss";
 
-import ReactPaginate from 'react-paginate';
-import moment from 'moment';
-
+import ReactPaginate from "react-paginate";
+import moment from "moment";
 
 const DynamicTableComponent = ({
   headers,
@@ -23,11 +22,10 @@ const DynamicTableComponent = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  
-  useEffect(() => {
 
+  useEffect(() => {
     if (!headers || headers.length === 0) {
-      throw new Error('Headers not provided');
+      throw new Error("Headers not provided");
     }
 
     if (viewAction || editAction || deleteAction) {
@@ -52,16 +50,18 @@ const DynamicTableComponent = ({
   useEffect(() => {
     if (data && data.length > 0) {
       setTableData(data);
-      setTotalPages(Math.ceil(data.length / itemsPerPage))
+      setTotalPages(Math.ceil(data.length / itemsPerPage));
     } else if (fetchUrl) {
       fetchTableData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, fetchUrl])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, fetchUrl]);
 
   const fetchTableData = async () => {
     try {
-      let url = fetchUrl.replace('{currentPage}', currentPage).replace('{perPage}', itemsPerPage);
+      let url = fetchUrl
+        .replace("{currentPage}", currentPage)
+        .replace("{perPage}", itemsPerPage);
       const resp = await fetch(url);
       const apiData = await resp.json();
 
@@ -74,15 +74,15 @@ const DynamicTableComponent = ({
 
       setTableData(apiData.data);
       setTotalPages(apiData.total_pages);
-
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     fetchTableData();
-  }, [currentPage, itemsPerPage])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, itemsPerPage]);
 
   const printColumnByDataType = (header, item) => {
     if (header.key === "item_action") {
@@ -121,19 +121,17 @@ const DynamicTableComponent = ({
         formattedText = col === true ? "Yes" : "No";
         break;
       case "date":
-        if (typeof col === 'string') {
+        if (typeof col === "string") {
           col = moment(col);
         } else {
-
         }
 
-        if(moment().diff(col, 'days') > 1)  {
-          formattedText = col.format('lll');
+        if (moment().diff(col, "days") > 1) {
+          formattedText = col.format("lll");
         } else {
           formattedText = col.fromNow();
         }
-         
-        
+
         break;
       default:
         formattedText = col + "";
@@ -145,53 +143,73 @@ const DynamicTableComponent = ({
   return (
     <>
       <div className="dynamic-table">
-        <div className="header-row">
-          {tableHeaders.map((header, index) => {
-            return (
-              <div className="header-col" key={index}>
-                {header.label}
-              </div>
-            );
-          })}
-        </div>
-        <div className="item-row-container">
-          {tableData.map((item, index) => {
-            return (
-              <div className="item-row" key={index}>
-                {tableHeaders.map((header, index1) => {
+        <table
+          className="table table-hover  table-responsive-block"
+        >
+          <thead>
+            <tr>
+              {
+                tableHeaders.map((header, index) => {
                   return (
-                    <div className="item" key={index1}>
-                      {index1 === 0 && viewAction && (
-                        <a href={viewAction.replace("{id}", item[idKey])}>
-                          {printColumnByDataType(header, item)}
-                        </a>
-                      )}
-                      {(index1 > 0 || !viewAction) &&
-                        printColumnByDataType(header, item)}
-                    </div>
+                    <th key={index}>
+                      {header.label}
+                    </th>
                   );
-                })}
-              </div>
-            );
-          })}
-        </div>
+                })
+              }              
+            </tr>
+          </thead>
+          <tbody>
+            {
+            tableData.map((item, index) => {
+              return (
+                <tr key={index}>
+                  {tableHeaders.map((header, index1) => {
+                    return (
+                      <td key={index1}>
+                        <span>
+                          {header.label}:
+                        </span>
+
+                        {index1 === 0 && viewAction && (
+                          <a href={viewAction.replace("{id}", item[idKey])}>
+                            {printColumnByDataType(header, item)}
+                          </a>
+                        )}
+                        {(index1 > 0 || !viewAction) &&
+                          printColumnByDataType(header, item)}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })
+            }
+            
+          </tbody>
+        </table>
+        
         <div className="bottom-action-row">
-          <select id="perpage-dropdown" value={itemsPerPage} onChange={(e) => setItemsPerPage(e.target.value)}>
+          <select
+            id="perpage-dropdown"
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(e.target.value)}
+          >
             <option>10</option>
             <option>20</option>
             <option>50</option>
           </select>
           <ReactPaginate
-            previousLabel={'Prev'}
-            nextLabel={'Next'}
-            breakLabel={'...'}
-            breakClassName={'break-me'}
+            previousLabel={"Prev"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
             pageCount={totalPages}
             marginPagesDisplayed={2}
             pageRangeDisplayed={6}
             onPageChange={(e) => setCurrentPage(e.selected + 1)}
-            containerClassName={'pagination'}
-            activeClassName={'active'}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
           />
         </div>
       </div>

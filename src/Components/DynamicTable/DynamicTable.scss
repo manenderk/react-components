@@ -1,46 +1,92 @@
 .dynamic-table {
-  width: 100%;
-  border: 1px solid #eee;
-
-  .header-row, .item-row {
+  .table {
+    margin-bottom: 0;
+    margin-top: 0.5rem;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-  }
+    color: #212529;
 
+    thead {
+      tr {
+        background: transparent;
+      }
+    }
 
-  .header-row {
-    background: #BBDEFB;    
-    border-bottom: 1px solid #000; 
     
-    .header-col {
-      font-weight: bold;
+    tr {
+      th {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.06em;
+      }
+
+      td {
+        font-size: 0.9rem;
+        span {
+          display: none;
+        }
+      }
+
+      td, th {
+        border-top: none;
+        line-height: 1.42857143;
+        padding: 0.8rem;
+        border-bottom: 1px solid rgba(224, 224, 224, 0.7);
+      }
     }
-  }
 
-  .item-row {
-    border-bottom: 1px solid #eee;
-
-    &:hover {
-      background-color: #E3F2FD;
+    tbody {
+      tr {
+        background: #fff;
+        &:hover {
+          color: #212529;
+          background: rgba(0,0,0,.075);
+        }
+      }
     }
-  }
 
-  .header-col, .item {
-    flex: 1;
-    padding: 0.6rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-wrap: wrap;
+    @media (max-width: 767px) {
+      thead, tbody, th, td, tr {
+        display: block;
+      }
 
-    .item-action {
-      margin-right: 0.6rem;
+      thead {
+        tr {
+          display: none;
+        }
+      }
+
+      tr {
+        border: 1px solid rgba(230, 230, 230, 0.7);
+        margin-bottom: 15px;
+
+        td {
+          span {
+            display: inline-block;
+            margin-right: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+          }
+        }
+       
+      }
+
+      tbody {
+        tr {
+          &:hover {
+            background: #fff;
+          }
+        }
+      }
+
+      
     }
+  
   }
 
   .bottom-action-row {
-    padding: 0.6rem;
+    padding: 0.8rem 0;
     text-align: right;
     display: flex;
     justify-content: space-between;
@@ -58,17 +104,17 @@
   .pagination {
     margin: 0;
     border: 1px solid #eee;
-    border-radius: 5px;
     
     li {
       display: inline-block;
-      background: #BBDEFB;
-      color: #000;
+      background: #fff;
+      color: #212529;
+      border-right: 1px solid #eee;
+
       a {
         display: inline-block;
         padding: 0.4rem 0.6rem;
       }
-      border-right: 1px solid #eee;
 
       &.disabled {
         cursor: default;
@@ -80,6 +126,10 @@
 
       &:last-child {
         border-right: none;
+      }
+
+      &.disabled {
+        color: rgba(3,3,3,0.5);
       }
     }
   }
