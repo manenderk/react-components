@@ -68,11 +68,7 @@ function App() {
               <Route path="/dynamic-table">
                 <DynamicTableComponent
                   headers={tableHeaderData1}
-                  data={tableData1}
-                  idKey="id"
-                  editAction="/user/edit/{id}"
-                  viewAction="/user/{id}"
-                  deleteAction="/user/delete/{id}"
+                  fetchUrl='http://atic.docswiz.com:3333/documents.json?page={currentPage}&per_page={perPage}'
                 />
               </Route>
               <Route path="/items-explorer">
