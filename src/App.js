@@ -13,6 +13,7 @@ import tableHeaderData1 from "./sample-data/table-header-1";
 import tableData1 from "./sample-data/table-data-1";
 import ItemsExplorerComponent from "./Components/ItemsExplorer/ItemsExplorerComponent";
 import ItemsLevel1 from "./sample-data/items-level-1";
+import tableHeaderData2 from "./sample-data/table-header-2";
 
 function App() {
   return (
@@ -67,8 +68,9 @@ function App() {
               </Route>
               <Route path="/dynamic-table">
                 <DynamicTableComponent
-                  headers={tableHeaderData1}
-                  fetchUrl='http://atic.docswiz.com:3333/documents.json?page={currentPage}&per_page={perPage}'
+                  headers={tableHeaderData2}
+                  //fetchUrl='http://atic.docswiz.com:3333/documents.json?page={currentPage}&per_page={perPage}'
+                  data={tableData1}
                 />
               </Route>
               <Route path="/items-explorer">

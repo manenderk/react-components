@@ -49,13 +49,19 @@ const DynamicTableComponent = ({
 
   useEffect(() => {
     if (data && data.length > 0) {
-      setTableData(data);
-      setTotalPages(Math.ceil(data.length / itemsPerPage));
+      const pages = Math.ceil(data.length / itemsPerPage);
+      if (pages !== totalPages) {
+        setTotalPages(pages);
+      }
+      const newRows = data.slice((currentPage - 1) * itemsPerPage, (currentPage * itemsPerPage));
+      setTableData(newRows);      
     } else if (fetchUrl) {
       fetchTableData();
+    } else {
+      throw new Error('Please provide Data or Fetch URL');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, fetchUrl]);
+  }, [data, fetchUrl, currentPage, itemsPerPage]);
 
   const fetchTableData = async () => {
     try {
@@ -72,17 +78,14 @@ const DynamicTableComponent = ({
         throw new Error("Total Pages doesn't exists in response");
       }
 
+      if (totalPages !== apiData.total_pages) {
+        setTotalPages(apiData.total_pages);
+      }
       setTableData(apiData.data);
-      setTotalPages(apiData.total_pages);
     } catch (e) {
       console.log(e);
     }
   };
-
-  useEffect(() => {
-    fetchTableData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, itemsPerPage]);
 
   const printColumnByDataType = (header, item) => {
     if (header.key === "item_action") {
