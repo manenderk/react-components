@@ -13,7 +13,7 @@ import tableHeaderData1 from "./sample-data/table-header-1";
 import tableData1 from "./sample-data/table-data-1";
 import ItemsExplorerComponent from "./Components/ItemsExplorer/ItemsExplorerComponent";
 import ItemsLevel1 from "./sample-data/items-level-1";
-
+import DrawerComponent from "./Components/DrawerComponent/index";
 function App() {
   return (
     <div className="container-fluid">
@@ -57,6 +57,15 @@ function App() {
                     Items Explorer
                   </NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to="/drawer-component"
+                    activeClassName="active"
+                  >
+                    Drawer
+                  </NavLink>
+                </li>
               </ul>
             </div>
           </div>
@@ -82,6 +91,9 @@ function App() {
                   detailsDisplayKeys={['description']}
                   fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/1/items/{id}/children.json`}                
                 />
+              </Route>
+              <Route path="/drawer-component">
+              <DrawerComponent />
               </Route>
             </Switch>
           </div>
