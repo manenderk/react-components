@@ -77,19 +77,15 @@ function App() {
               <Route path="/dynamic-table">
                 <DynamicTableComponent
                   headers={tableHeaderData1}
-                  data={tableData1}
-                  idKey="id"
-                  editAction="/user/edit/{id}"
-                  viewAction="/user/{id}"
-                  deleteAction="/user/delete/{id}"
+                  fetchUrl='http://atic.docswiz.com:3333/documents.json?page={currentPage}&per_page={perPage}'
                 />
               </Route>
               <Route path="/items-explorer">
                 <ItemsExplorerComponent 
-                  items={ItemsLevel1}  
-                  titleDisplayKeys={['code', 'title']}
-                  detailsDisplayKeys={['description']}
-                  fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/1/items/{id}/children.json`}                
+                  fetchItemsUrl='http://rails.docswiz.com:3333/projects/2/items.json'
+                  fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/2/items/{id}/children.json`}    
+                  listLevel1Icon='<i class="far fa-folder"></i>'
+                  listLevel2Icon='<i class="far fa-file-alt"></i>'            
                 />
               </Route>
               <Route path="/drawer-component">

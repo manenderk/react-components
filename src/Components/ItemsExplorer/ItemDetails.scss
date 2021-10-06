@@ -16,6 +16,10 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    .list-icon {
+      margin-right: 0.5rem;
+    }
   }
 
   .item-content {
@@ -46,7 +50,11 @@
     }
 
     .sub-item {
-      border-bottom: 3px solid #fff;
+      border-bottom: 1px solid #000;
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 

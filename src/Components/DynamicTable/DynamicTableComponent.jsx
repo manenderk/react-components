@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./DynamicTable.scss";
 
+import ReactPaginate from 'react-paginate';
+import moment from 'moment';
+
+
 const DynamicTableComponent = ({
   headers,
   data,
+  fetchUrl,
   idKey,
   editAction,
   viewAction,
@@ -14,9 +19,17 @@ const DynamicTableComponent = ({
   ...props
 }) => {
   const [tableHeaders, setTableHeaders] = useState(headers);
-  const [tableData, setTableData] = useState(data);
-
+  const [tableData, setTableData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  
   useEffect(() => {
+
+    if (!headers || headers.length === 0) {
+      throw new Error('Headers not provided');
+    }
+
     if (viewAction || editAction || deleteAction) {
       if (!idKey) {
         throw new Error(
@@ -34,9 +47,42 @@ const DynamicTableComponent = ({
         },
       ]);
     }
-  }, [headers]);
+  }, [viewAction, editAction, deleteAction, idKey, headers]);
 
-  useEffect(() => {}, [sortBy, sortDirection]);
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setTableData(data);
+      setTotalPages(Math.ceil(data.length / itemsPerPage))
+    } else if (fetchUrl) {
+      fetchTableData();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, fetchUrl])
+
+  const fetchTableData = async () => {
+    try {
+      let url = fetchUrl.replace('{currentPage}', currentPage).replace('{perPage}', itemsPerPage);
+      const resp = await fetch(url);
+      const apiData = await resp.json();
+
+      if (!apiData.data) {
+        throw new Error("Data object doesn't exists in response");
+      }
+      if (!apiData.total_pages) {
+        throw new Error("Total Pages doesn't exists in response");
+      }
+
+      setTableData(apiData.data);
+      setTotalPages(apiData.total_pages);
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    fetchTableData();
+  }, [currentPage, itemsPerPage])
 
   const printColumnByDataType = (header, item) => {
     if (header.key === "item_action") {
@@ -62,7 +108,7 @@ const DynamicTableComponent = ({
       );
     }
 
-    const col = item[header.key];
+    let col = item[header.key];
 
     if (!col) {
       return "";
@@ -75,7 +121,19 @@ const DynamicTableComponent = ({
         formattedText = col === true ? "Yes" : "No";
         break;
       case "date":
-        formattedText = col.toDateString();
+        if (typeof col === 'string') {
+          col = moment(col);
+        } else {
+
+        }
+
+        if(moment().diff(col, 'days') > 1)  {
+          formattedText = col.format('lll');
+        } else {
+          formattedText = col.fromNow();
+        }
+         
+        
         break;
       default:
         formattedText = col + "";
@@ -117,6 +175,25 @@ const DynamicTableComponent = ({
             );
           })}
         </div>
+        <div className="bottom-action-row">
+          <select id="perpage-dropdown" value={itemsPerPage} onChange={(e) => setItemsPerPage(e.target.value)}>
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+          <ReactPaginate
+            previousLabel={'Prev'}
+            nextLabel={'Next'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={totalPages}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={6}
+            onPageChange={(e) => setCurrentPage(e.selected + 1)}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+          />
+        </div>
       </div>
     </>
   );
@@ -138,6 +215,11 @@ DynamicTableComponent.propTypes = {
    * Data for the table
    */
   data: PropTypes.array,
+
+  /**
+   * Fetch url
+   */
+  fetchUrl: PropTypes.string,
 
   /**
    * ID key for each record

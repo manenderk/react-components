@@ -1,7 +1,6 @@
 .dynamic-table {
   width: 100%;
   border: 1px solid #eee;
-  border-bottom: none;
 
   .header-row, .item-row {
     width: 100%;
@@ -11,7 +10,7 @@
 
 
   .header-row {
-    background: #eee;    
+    background: #BBDEFB;    
     border-bottom: 1px solid #000; 
     
     .header-col {
@@ -21,18 +20,67 @@
 
   .item-row {
     border-bottom: 1px solid #eee;
+
+    &:hover {
+      background-color: #E3F2FD;
+    }
   }
 
   .header-col, .item {
     flex: 1;
-    padding: 0.5rem;
+    padding: 0.6rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-wrap: wrap;
 
     .item-action {
-      margin-right: 0.5rem;
+      margin-right: 0.6rem;
+    }
+  }
+
+  .bottom-action-row {
+    padding: 0.6rem;
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+
+    #perpage-dropdown {
+      width: 100px;
+      border: 1px solid #eee;
+
+      &:focus, &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+
+  .pagination {
+    margin: 0;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    
+    li {
+      display: inline-block;
+      background: #BBDEFB;
+      color: #000;
+      a {
+        display: inline-block;
+        padding: 0.4rem 0.6rem;
+      }
+      border-right: 1px solid #eee;
+
+      &.disabled {
+        cursor: default;
+      }
+
+      &.active {
+        background: #eee;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
     }
   }
 
