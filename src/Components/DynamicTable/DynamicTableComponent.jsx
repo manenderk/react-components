@@ -223,6 +223,7 @@ const DynamicTableComponent = ({
 DynamicTableComponent.propTypes = {
   /**
    * Headers for the table
+   * Should be an array of below object of below type
    */
   headers: PropTypes.arrayOf(
     PropTypes.shape({
@@ -233,42 +234,42 @@ DynamicTableComponent.propTypes = {
   ),
 
   /**
-   * Data for the table
+   * Data for the table. Should be an array of objects of any type. 
    */
   data: PropTypes.array,
 
   /**
-   * Fetch url
+   * Fetch url. Used to fetch data remotely using API. Keywords: {currentPage}, {perPage}
    */
   fetchUrl: PropTypes.string,
 
   /**
-   * ID key for each record
+   * Key name that corresponds to ID of records
    */
   idKey: PropTypes.string,
 
   /**
-   * Url for edit item
+   * Url for edit item. Keywords: {id}
    */
   editAction: PropTypes.string,
 
   /**
-   * Url for view item
+   * Url for view item. Keywords: {id}
    */
   viewAction: PropTypes.string,
 
   /**
-   * Url for delete item
+   * Url for delete item. Keywords: {id}
    */
   deleteAction: PropTypes.string,
 
   /**
-   * Default Sort By Column
+   * Key name to sort table by default
    */
   sortBy: PropTypes.string,
 
   /**
-   * Default Sort By Direction
+   * Default sort order
    */
   sortDirection: PropTypes.oneOf(["ASC", "DESC"]),
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import PasswordFieldComponent from './PasswordFieldComponent';
+import PasswordFieldComponent from '../PasswordField/PasswordFieldComponent';
 
 
 export default {

@@ -1,16 +1,23 @@
 const tableHeaderData1 = [
   {
-    label: 'Document',
-    key: 'filename'
+    label: 'First Name',
+    key: 'first_name'
   },
   {
-    label: 'Size',
-    key: 'size'
+    label: 'Last Name',
+    key: 'last_name'
   },
   {
-    label: 'Uploaded on',
-    key: 'created_at',
-    dataType: 'date'
+    label: 'Company',
+    key: 'company_name'
+  },
+  {
+    label: 'Email',
+    key: 'email'
+  },
+  {
+    label: 'Website',
+    key: 'web'
   }
 ]
 

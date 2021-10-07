@@ -1,6 +1,6 @@
 import React from 'react';
 import ItemsLevel1 from '../../sample-data/items-level-1';
-import ItemsExplorerComponent from './ItemsExplorerComponent';
+import ItemsExplorerComponent from '../ItemsExplorer/ItemsExplorerComponent';
 
 
 export default {

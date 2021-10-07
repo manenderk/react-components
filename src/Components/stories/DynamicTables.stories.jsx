@@ -1,8 +1,7 @@
 import React from 'react';
 import tableData1 from '../../sample-data/table-data-1';
 import tableHeaderData1 from '../../sample-data/table-header-1';
-import DynamicTableComponent from './DynamicTableComponent';
-
+import DynamicTableComponent from '../DynamicTable/DynamicTableComponent';
 
 export default {
   title: 'Table/Dynamic Table',
