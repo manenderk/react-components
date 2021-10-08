@@ -1,44 +1,22 @@
 import React from 'react'
+import Drawer from './Drawer'
 
-
-const Drawer = () => {
+const DrawerComponent = () => {
 
   return (
     <>
-      <div className="offcanvas offcanvas-end" style={{position:"fixed",right:"30px"}} id="demo">
-        <div className="offcanvas-header">
-          <h1 className="offcanvas-title">Bookmarks</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div className="offcanvas-body">
-          <p>Some text lorem ipsum.</p>
-          <p>Some text lorem ipsum.</p>
-          <button className="btn btn-secondary" type="button">A Button</button>
-        </div>
-      </div> 
-      <div className="offcanvas offcanvas-end" style={{ position: "fixed", right: "38px" }} id="demoTwo">
-        <div className="offcanvas-header">
-          <h1 className="offcanvas-title">Notes</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div className="offcanvas-body">
-          <p>Some text lorem ipsum.</p>
-          <p>Some text lorem ipsum.</p>
-          <button className="btn btn-secondary" type="button">A Button</button>
-        </div>
-      </div>
-      <div className="offcanvas offcanvas-end" style={{ position: "fixed", right: "38px" }} id="demoThree">
-        <div className="offcanvas-header">
-          <h1 className="offcanvas-title">Additional Notes</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div className="offcanvas-body">
-          <p>Some text lorem ipsum.</p>
-          <p>Some text lorem ipsum.</p>
-          <p>Some text lorem ipsum.</p>
-          <button className="btn btn-secondary" type="button">A Button</button>
-        </div>
-      </div>
+      <Drawer id="demo" title="Bookmarks">
+      <p>This is Bookmarks body.</p>
+        <button className="btn btn-primary" type="button">A Button</button>
+      </Drawer>
+      <Drawer id="demoTwo" title="Notes">
+        <p>This is notes body.</p>
+        <button className="btn btn-secondary" type="button">A Button</button>
+      </Drawer>
+      <Drawer id="demoThree" title="Additional Notes">
+        <p>This is additional notes body.</p>
+        <button className="btn btn-dark" type="button">A Button</button>
+      </Drawer>
       <div className="d-flex gap-2" style={{ position: "fixed", top: "50vh", right: "-130px", zIndex: 9999, transform: "rotate(90deg)" }}>
         <button className="btn btn-sm btn-primary shadow-lg rounded-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">Bookmarks</button>
         <button className="btn btn-sm btn-secondary shadow-lg rounded-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#demoTwo">Notes</button>
@@ -49,5 +27,5 @@ const Drawer = () => {
   )
 }
 
-export default Drawer
+export default DrawerComponent
 
