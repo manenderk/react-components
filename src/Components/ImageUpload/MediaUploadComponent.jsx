@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import './MediaUploadComponent.scss'
+import placeholder from './placeholder.png'
 
 const MediaUploadComponent = ({
   uploadUrl,
@@ -12,8 +13,8 @@ const MediaUploadComponent = ({
  }) => {
 
   const myRefname= useRef(null);
-  const [previewMedia, setPreviewMedia] = useState(null);
-  const [previewMediaType, setPreviewMediaType] = useState(null);
+  const [previewMedia, setPreviewMedia] = useState(placeholder);
+  const [previewMediaType, setPreviewMediaType] = useState('image/png');
   const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
@@ -77,7 +78,6 @@ const MediaUploadComponent = ({
       setShowLoader(false);
     } catch (error) {
       setShowLoader(false);
-      console.log(error);
       handleError(error);
     }
   }

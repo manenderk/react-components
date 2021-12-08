@@ -98,7 +98,7 @@ function App() {
                 <DrawerComponent />
               </Route>
               <Route path="/file-upload">
-                <ImageUploadComponent uploadUrl="http://localhost:3000/upload" previewUrl="http://localhost:3000/images/img1.jpg" postData={{entity: 'user', id: 2, field: 'profile_image'}} />
+                <ImageUploadComponent uploadUrl="http://localhost:3000/upload" previewUrl="" postData={{entity: 'user', id: 2, field: 'profile_image'}} />
               </Route>
             </Switch>
           </div>
