@@ -9,12 +9,12 @@ import "../node_modules/jquery/dist/jquery";
 import "../node_modules/bootstrap/dist/js/bootstrap";
 import PasswordFieldComponent from "./Components/PasswordField/PasswordFieldComponent";
 import DynamicTableComponent from "./Components/DynamicTable/DynamicTableComponent";
-import tableHeaderData1 from "./sample-data/table-header-1";
 import tableData1 from "./sample-data/table-data-1";
-import ItemsExplorerComponent from "./Components/ItemsExplorer/ItemsExplorerComponent";
-import ItemsLevel1 from "./sample-data/items-level-1";
 import tableHeaderData2 from "./sample-data/table-header-2";
 
+import DrawerComponent from "./Components/DrawerComponent/index";
+import ItemsExplorerComponent from "./Components/ItemsExplorer/ItemsExplorerComponent";
+import ImageUploadComponent from "./Components/ImageUpload/MediaUploadComponent";
 function App() {
   return (
     <div className="container-fluid">
@@ -58,6 +58,24 @@ function App() {
                     Items Explorer
                   </NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to="/drawer-component"
+                    activeClassName="active"
+                  >
+                    Drawer
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to="/file-upload"
+                    activeClassName="active"
+                  >
+                    File Upload
+                  </NavLink>
+                </li>
               </ul>
             </div>
           </div>
@@ -74,12 +92,13 @@ function App() {
                 />
               </Route>
               <Route path="/items-explorer">
-                <ItemsExplorerComponent 
-                  fetchItemsUrl='http://rails.docswiz.com:3333/projects/2/items.json'
-                  fetchSubitemsUrl={`http://rails.docswiz.com:3333/projects/2/items/{id}/children.json`}    
-                  listLevel1Icon='<i class="far fa-folder"></i>'
-                  listLevel2Icon='<i class="far fa-file-alt"></i>'            
-                />
+                <ItemsExplorerComponent />
+              </Route>
+              <Route path="/drawer-component">
+                <DrawerComponent />
+              </Route>
+              <Route path="/file-upload">
+                <ImageUploadComponent uploadUrl="http://localhost:3000/upload" previewUrl="http://localhost:3000/images/img1.jpg" postData={{entity: 'user', id: 2, field: 'profile_image'}} />
               </Route>
             </Switch>
           </div>

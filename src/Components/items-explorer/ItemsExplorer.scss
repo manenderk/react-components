@@ -1,0 +1,12 @@
+.items-explorer {
+  .level1 {
+    padding: 0;
+    list-style: none;
+  }
+
+  .sidebar {
+    max-height: 100vh;
+    overflow-y: auto;
+    background: #fff;
+  }
+}

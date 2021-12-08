@@ -1,0 +1,42 @@
+.react-media-upload {
+  display: inline-block;
+  max-width: 300px;
+
+  .preview-media {
+    width: 100%;
+    margin-bottom: 1rem;
+    position: relative;
+    img, video {
+      width: 100%;
+      height: auto;
+    }
+
+    #upload-loader {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(3,3,3,0.5);
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+
+  #media-file-input {
+    display: none;
+  } 
+
+  .upload-btn {
+    border: 1px #eee;
+    background: #007bff;
+    color: #fff;
+    display: inline-block;
+    width: 100%;
+    padding: 0.4rem;
+  }
+}
