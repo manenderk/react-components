@@ -15,6 +15,7 @@ import tableHeaderData2 from "./sample-data/table-header-2";
 import DrawerComponent from "./Components/DrawerComponent/index";
 import ItemsExplorerComponent from "./Components/ItemsExplorer/ItemsExplorerComponent";
 import ImageUploadComponent from "./Components/ImageUpload/MediaUploadComponent";
+import AddressAutofillComponent from "./Components/AddressAutofill/AddressAutofillComponent";
 function App() {
   return (
     <div className="container-fluid">
@@ -76,6 +77,15 @@ function App() {
                     File Upload
                   </NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to="/address-autofill"
+                    activeClassName="active"
+                  >
+                    Address Autofill
+                  </NavLink>
+                </li>
               </ul>
             </div>
           </div>
@@ -99,6 +109,9 @@ function App() {
               </Route>
               <Route path="/file-upload">
                 <ImageUploadComponent uploadUrl="http://localhost:3000/upload" previewUrl="" postData={{entity: 'user', id: 2, field: 'profile_image'}} />
+              </Route>
+              <Route path="/address-autofill">
+                <AddressAutofillComponent />
               </Route>
             </Switch>
           </div>
